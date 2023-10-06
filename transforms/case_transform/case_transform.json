@@ -1,0 +1,34 @@
+{
+  "name": "case_transfrom",
+  "displayName": "Casing Transform",
+  "desciption": "Change the casing of a for a column",
+  "functionName": "case_transfrom",
+  "path": "<your_s3_path>",
+  "parameters": [
+    {
+      "name": "column_name",
+      "displayName": "Column Name",
+      "type": "string",
+      "isOptional": false,
+      "description": "Name of the column to transform"
+    },
+    {
+      "name": "case",
+      "displayName": "Case",
+      "type": "string",
+      "isOptional": false,
+      "description": "Transform to lowercase or uppercase",
+      "listOptions": [
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "listType": "string"
+    }
+  ]
+}
