@@ -1,12 +1,12 @@
 terraform {
 
-    cloud {
-        organization = "jack-werner-personal"
+    # cloud {
+    #     organization = "jack-werner-personal"
 
-        workspaces {
-            name = "aws-glue-studio-custom-transform"
-        }
-    }
+    #     workspaces {
+    #         name = "aws-glue-studio-custom-transform"
+    #     }
+    # }
 
     required_providers {
       aws = {
