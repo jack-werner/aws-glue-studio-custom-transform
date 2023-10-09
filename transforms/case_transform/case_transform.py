@@ -2,6 +2,8 @@ from awsglue import DynamicFrame
 import pyspark.sql.functions as F
 from pyspark.sql.utils import AnalysisException
 
+
+
 def case_transform(self, column_name, case):
     """
     case_transform will take your specified column name and either transform it to all upper or all lowercase.
@@ -9,6 +11,7 @@ def case_transform(self, column_name, case):
     params:
         co 
     """
+    # logger = self.glue_ctx.get_logger()
     df = self.toDF()
 
     try:
