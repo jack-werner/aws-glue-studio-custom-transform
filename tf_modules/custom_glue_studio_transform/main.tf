@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 data "aws_kms_key" "this" {
-  key_id = var.kms_key_alias
+  key_id = "aws/s3"
 }
 
 resource "aws_s3_object" "json" {
