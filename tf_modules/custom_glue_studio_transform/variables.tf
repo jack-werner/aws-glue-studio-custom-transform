@@ -9,7 +9,7 @@ variable "account_id" {
   sensitive = true
 }
 
-variable "file_name" {
+variable "filename" {
   description = "The name of your json and python files. Do not include filetype extensions."
   type = string
 }
