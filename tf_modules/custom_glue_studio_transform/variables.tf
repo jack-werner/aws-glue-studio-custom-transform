@@ -6,6 +6,7 @@ variable "region" {
 variable "account_id" {
   description = "Your AWS account id"
   type = string
+  sensitive = true
 }
 
 variable "file_name" {

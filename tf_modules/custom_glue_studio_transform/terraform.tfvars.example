@@ -1,4 +1,4 @@
 region = "us-east-1"
 account_id = "12345678"
 file_name = "case_transform"
-local_path = "transforms/custom_glue_studio_transform"
+local_path = "transforms/case_transform"
