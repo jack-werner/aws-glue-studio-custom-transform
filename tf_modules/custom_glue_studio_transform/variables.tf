@@ -18,8 +18,3 @@ variable "local_path" {
   description = "The local path to your json and python files. Do not include trailing slash."
   type        = string
 }
-
-variable "s3_bucket" {
-  description = "the s3bucket to upload to"
-  type = string
-}
