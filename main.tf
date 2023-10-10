@@ -13,7 +13,7 @@ provider "aws" {
 resource "aws_s3_object" "object" {
   bucket = var.s3_bucket
   key = "target/example.json"
-  source = "transforms/case_transform/case_transform.json"
+  source = "transforms/case_transform/case_transform_2.json"
 
-  etag = filemd5("transforms/case_transform/case_transform.json")
+  etag = filemd5("transforms/case_transform/case_transform_2.json")
 }
