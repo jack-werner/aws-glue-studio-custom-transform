@@ -13,7 +13,7 @@ variable "file_name" {
   type = string
 }
 
-variable "source" {
+variable "local_path" {
   description = "The local path to your json and python files. Do not include trailing slash."
   type = string
 }
