@@ -3,7 +3,6 @@
   "displayName": "Transform Case",
   "description": "Change the casing for a column",
   "functionName": "case_transform",
-  "path": "s3://aws-glue-assets-923247588708-us-east-1/transforms/case_transform.py",
   "parameters": [
     {
       "name": "column_name",
