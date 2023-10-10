@@ -3,7 +3,7 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "account_id" {
+variable "AWS_ACCOUNT_ID" {
   description = "AWS Account id"
   sensitive = true
 }
