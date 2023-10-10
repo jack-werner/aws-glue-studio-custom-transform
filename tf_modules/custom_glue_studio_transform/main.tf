@@ -8,7 +8,7 @@ resource "aws_s3_object" "json" {
   source = "${var.local_path}/${var.filename}.json"
   server_side_encryption = "aws:kms"
 
-  etag = filemd5("${var.local_path}/${var.filename}.json")
+  # etag = filemd5("${var.local_path}/${var.filename}.json")
 }
 
 resource "aws_s3_object" "python" {
@@ -17,5 +17,5 @@ resource "aws_s3_object" "python" {
   source = "${var.local_path}/${var.filename}.py"
   server_side_encryption = "aws:kms"
 
-  etag = filemd5("${var.local_path}/${var.filename}.py")
+  # etag = filemd5("${var.local_path}/${var.filename}.py")
 }
