@@ -5,5 +5,5 @@ variable "region" {
 
 variable "AWS_ACCOUNT_ID" {
   description = "AWS Account id"
-  sensitive = true
+  sensitive   = true
 }
