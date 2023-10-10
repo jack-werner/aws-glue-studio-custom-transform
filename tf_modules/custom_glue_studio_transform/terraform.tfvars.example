@@ -1,0 +1,4 @@
+region = "us-east-1"
+account_id = "12345678"
+filename = "case_transform"
+local_path = "transforms/case_transform"
