@@ -11,7 +11,7 @@ provider "aws" {
 # }
 
 resource "aws_s3_object" "object" {
-  bucket = "aws-glue-assets-${var.account_id}-${var.region}"
+  bucket = "aws-glue-assets-${var.AWS_ACCOUNT_ID}-${var.region}"
   key = "transforms/target/example.json"
   source = "transforms/case_transform/case_transform_2.json"
 
