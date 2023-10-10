@@ -11,8 +11,8 @@ provider "aws" {
 # }
 
 resource "aws_s3_object" "object" {
-  bucket = var.s3_bucket
-  key = "target/example.json"
+  bucket = "aws-glue-assets-${var.account_id}-${var.region}"
+  key = "transforms/target/example.json"
   source = "transforms/case_transform/case_transform_2.json"
 
   etag = filemd5("transforms/case_transform/case_transform_2.json")
