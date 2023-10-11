@@ -2,16 +2,21 @@ from awsglue import DynamicFrame
 import pyspark.sql.functions as F
 from pyspark.sql.utils import AnalysisException
 
-
-
 def case_transform(self, column_name, case):
     """
     case_transform will take your specified column name and either transform it to all upper or all lowercase.
 
-    params:
-        co 
+    Args:
+        column_name (str): The name of the column you would like to transform.
+        case (str): Determines if you will transform to lowercase or uppercase.
+    
+    Returns:
+        DynamicFrame: AWS Glue Dynamic frame with transformed column
+    
+    Raises:
+        pypspark.sql.utils.AnalysisException if specified column isn't of type str.
+        ValueError if column_name is not found in the DataFrame.
     """
-    # logger = self.glue_ctx.get_logger()
     df = self.toDF()
 
     try:
@@ -26,7 +31,5 @@ def case_transform(self, column_name, case):
         raise ValueError(f"Column '{column_name}' not found in DataFrame.")
     
     return DynamicFrame.fromDF(df, self.glue_ctx, "case_transform")    
-    
-    
     
 DynamicFrame.case_transform = case_transform
