@@ -1,8 +1,10 @@
 from awsglue import DynamicFrame
 import pyspark.sql.functions as F
+from pyspark.sql import DataFrame
 from pyspark.sql.utils import AnalysisException
 
-def case_transform(self, column_name, case):
+
+def case_transform(self, column_name: str, case: str) -> DynamicFrame:
     """
     case_transform will take your specified column name and either transform it to all upper or all lowercase.
 
@@ -17,7 +19,7 @@ def case_transform(self, column_name, case):
         pypspark.sql.utils.AnalysisException if specified column isn't of type str.
         ValueError if column_name is not found in the DataFrame.
     """
-    df = self.toDF()
+    df: DataFrame = self.toDF()
 
     try:
         if df.schema[column_name].dataType.simpleString() == "string":
