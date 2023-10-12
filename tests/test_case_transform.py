@@ -1,16 +1,20 @@
+# pylint: disable=W0621
+
+"test_case_transform contains the unit tests for the transforms.case_transform module"
+from collections import Counter
 import pytest
 import pyspark.sql.functions as F
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.types import StructType, StringType, StructField, DateType, IntegerType
 from pyspark.sql.utils import AnalysisException
-from collections import Counter
 from transforms.case_transform import case_transform
 
 COLUMN_NAME = 'name'
 CASE = "lowercase"
 
 @pytest.fixture(scope='module')
-def spark():
+def spark_session():
+    "Test fixture that returns a shared SparkSession"
     spark = (
         SparkSession.builder
         .appName("test_case_transform")
@@ -20,7 +24,9 @@ def spark():
     spark.stop()
 
 @pytest.fixture(scope='module')
-def accounts(spark):
+def accounts(spark_session):
+    "Test fixture that returns a Spark DataFrame"
+    spark = spark_session
     schema = StructType([
         StructField("id", IntegerType(), False),
         StructField("name", StringType(), False),
@@ -39,6 +45,7 @@ def accounts(spark):
     spark.stop()
 
 def test_transform_lowercase(accounts):
+    "Tests lowercase transform works properly"
     df: DataFrame = accounts
     expected_values = [
         "abc company",
@@ -52,8 +59,9 @@ def test_transform_lowercase(accounts):
     actual_values = [str(row[0]) for row in names_col]
 
     assert Counter(expected_values) == Counter(actual_values)
-    
+
 def test_transform_uppercase(accounts):
+    "Tests uppercase transform works properly"
     df: DataFrame = accounts
     case = 'uppercase'
     expected_values = [
@@ -70,15 +78,20 @@ def test_transform_uppercase(accounts):
     assert Counter(expected_values) == Counter(actual_values)
 
 def test_transform_bad_case(accounts):
+    "Tests bad case error is raised properly"
     df: DataFrame = accounts
     case = "Lowercase"
 
     with pytest.raises(ValueError) as e:
         df = case_transform.transform(df, COLUMN_NAME, case)
-    
-    assert str(e.value) == "Provided value 'Lowercase' for parameter 'case' is invalid. Valid options are: uppercase, lowercase."
+
+    assert str(e.value) == (
+        "Provided value 'Lowercase' for parameter 'case' is invalid. Valid options are: uppercase, lowercase." # pylint: disable=C0301
+    )
+
 
 def test_transform_missing_col(accounts):
+    "Tests missing column error is raised properly"
     df: DataFrame = accounts
 
     with pytest.raises(ValueError) as e:
@@ -88,8 +101,9 @@ def test_transform_missing_col(accounts):
 
 
 def test_transform_not_string(accounts):
+    "Tests bad column type error is raised properly"
     df: DataFrame = accounts
-    
+
     with pytest.raises(AnalysisException) as e:
         df = case_transform.transform(df, "created_date", CASE)
 
