@@ -20,15 +20,10 @@ def accounts(spark):
     yield df
     spark.stop()
 
-def test_transform(accounts):
+def test_transform_lowercase(accounts):
     df: DataFrame = accounts
     column_name = 'name'
     case = 'lowercase'
-
-    df = case_transform.transform(df, column_name, case)
-    
-    names_col = df.select(F.col(column_name)).collect()
-    actual_values = [str(row[0]) for row in names_col]
     expected_values = [
         "abc company",
         "xyz corporation",
@@ -36,8 +31,35 @@ def test_transform(accounts):
         "def industries"
     ]
 
+    df = case_transform.transform(df, column_name, case)
+    names_col = df.select(F.col(column_name)).collect()
+    actual_values = [str(row[0]) for row in names_col]
+
+    assert Counter(expected_values) == Counter(actual_values)
+    
+def test_transform_uppercase(accounts):
+    df: DataFrame = accounts
+    column_name = 'name'
+    case = 'uppercase'
+    expected_values = [
+        "ABC COMPANY",
+        "XYZ CORPORATION",
+        "RANDOM CASING LTD",
+        "DEF INDUSTRIES"
+    ]
+
+    df = case_transform.transform(df, column_name, case)
+    names_col = df.select(F.col(column_name)).collect()
+    actual_values = [str(row[0]) for row in names_col]
+
     assert Counter(expected_values) == Counter(actual_values)
 
+def test_transform_bad_case(accounts):
+    pass
 
-    
+def test_transform_missing_name(accounts):
+    pass
+
+def test_transform_not_string(accounts):
+    pass
 
