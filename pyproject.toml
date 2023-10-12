@@ -1,8 +1,0 @@
-[project]
-name = "aws_glue_custom_transforms"
-version = "0.0.1"
-dependencies = [
-    "pyspark",
-    "aws-glue-libs",
-    "pytest"
-]
