@@ -2,7 +2,7 @@ import pytest
 import pyspark.sql.functions as F
 from pyspark.sql import SparkSession, DataFrame
 from collections import Counter
-from transforms.case_transform import transform
+from transforms import case_transform
 
 @pytest.fixture(scope='module')
 def spark():
@@ -24,9 +24,9 @@ def test_transform(accounts):
     column_name = 'name'
     case = 'uppercase'
 
-    df = transform(df, column_name, case)
+    df = case_transform.transform(df, column_name, case)
 
-    actual_values = [row[F.col(column_name)] for row in df.select(column_name)]
+    actual_values = [row[0] for row in df.select(column_name)]
     expected_values = [
         "abc company",
         "xyz corporation",
