@@ -16,23 +16,25 @@ def spark():
 
 @pytest.fixture(scope='module')
 def accounts(spark):
-    return spark.read.csv('tests/resources/accounts.csv')
+    df = spark.read.option('header','true').csv('tests/resources/accounts.csv')
+    yield df
+    spark.stop()
 
 def test_transform(accounts):
     df: DataFrame = accounts
     column_name = 'name'
-    case = 'uppercase'
+    case = 'lowercase'
 
     df = case_transform.transform(df, column_name, case)
-
-    actual_values = [row[0] for row in df.select(column_name)]
+    
+    names_col = df.select(F.col(column_name)).collect()
+    actual_values = [str(row[0]) for row in names_col]
     expected_values = [
         "abc company",
         "xyz corporation",
         "random casing ltd",
         "def industries"
     ]
-
 
     assert Counter(expected_values) == Counter(actual_values)
 
