@@ -23,16 +23,16 @@ def transform(df: DataFrame, column_name: str, case: str) -> DataFrame:
     if case not in valid_cases:
         raise ValueError(f"Invalid value for parameter 'case'. valid options are: {', '.join(valid_cases)}.")
 
-    try:
-        if df.schema[column_name].dataType.simpleString() == "string":
-            if case == "uppercase":
-                df = df.withColumn(column_name, F.upper(F.col(column_name)))
-            else:
-                df = df.withColumn(column_name, F.lower(F.col(column_name)))
-        else:
-            raise AnalysisException(f"Column '{column_name}' is not of StringType.")
-    except KeyError:
+    if not column_name in df.columns:
         raise ValueError(f"Column '{column_name}' not found in DataFrame.")
+    
+    if df.schema[column_name].dataType.simpleString() != "string":
+        raise AnalysisException(f"Column '{column_name}' is not of StringType.")
+    
+    if case == "uppercase":
+        df = df.withColumn(column_name, F.upper(F.col(column_name)))
+    else:
+        df = df.withColumn(column_name, F.lower(F.col(column_name)))
     
     return df
     
