@@ -21,7 +21,7 @@ def transform(df: DataFrame, column_name: str, case: str) -> DataFrame:
     """
     valid_cases = ['uppercase','lowercase']
     if case not in valid_cases:
-        raise ValueError(f"Invalid value for parameter 'case'. valid options are: {', '.join(valid_cases)}.")
+        raise ValueError(f"Provided value '{case}' for parameter 'case' is invalid. Valid options are: {', '.join(valid_cases)}.")
 
     if not column_name in df.columns:
         raise ValueError(f"Column '{column_name}' not found in DataFrame.")

@@ -4,6 +4,8 @@ from pyspark.sql import SparkSession, DataFrame
 from collections import Counter
 from transforms.case_transform import case_transform
 
+COLUMN_NAME = 'name'
+
 @pytest.fixture(scope='module')
 def spark():
     spark = (
@@ -22,7 +24,6 @@ def accounts(spark):
 
 def test_transform_lowercase(accounts):
     df: DataFrame = accounts
-    column_name = 'name'
     case = 'lowercase'
     expected_values = [
         "abc company",
@@ -31,15 +32,14 @@ def test_transform_lowercase(accounts):
         "def industries"
     ]
 
-    df = case_transform.transform(df, column_name, case)
-    names_col = df.select(F.col(column_name)).collect()
+    df = case_transform.transform(df, COLUMN_NAME, case)
+    names_col = df.select(F.col(COLUMN_NAME)).collect()
     actual_values = [str(row[0]) for row in names_col]
 
     assert Counter(expected_values) == Counter(actual_values)
     
 def test_transform_uppercase(accounts):
     df: DataFrame = accounts
-    column_name = 'name'
     case = 'uppercase'
     expected_values = [
         "ABC COMPANY",
@@ -48,14 +48,20 @@ def test_transform_uppercase(accounts):
         "DEF INDUSTRIES"
     ]
 
-    df = case_transform.transform(df, column_name, case)
-    names_col = df.select(F.col(column_name)).collect()
+    df = case_transform.transform(df, COLUMN_NAME, case)
+    names_col = df.select(F.col(COLUMN_NAME)).collect()
     actual_values = [str(row[0]) for row in names_col]
 
     assert Counter(expected_values) == Counter(actual_values)
 
 def test_transform_bad_case(accounts):
-    pass
+    df: DataFrame = accounts
+    case = "Lowercase"
+
+    with pytest.raises(ValueError) as e:
+        df = case_transform.transform(df, COLUMN_NAME, case)
+    
+    assert str(e.value) == "Provided value 'Lowercase' for parameter 'case' is invalid. Valid options are: uppercase, lowercase."
 
 def test_transform_missing_name(accounts):
     pass
