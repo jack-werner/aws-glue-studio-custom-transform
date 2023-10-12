@@ -19,6 +19,9 @@ def transform(df: DataFrame, column_name: str, case: str) -> DataFrame:
         pypspark.sql.utils.AnalysisException if specified column isn't of type str.
         ValueError if column_name is not found in the DataFrame.
     """
+    valid_cases = ['uppercase','lowercase']
+    if case not in valid_cases:
+        raise ValueError(f"Invalid value for parameter 'case'. valid options are: {', '.join(valid_cases)}.")
 
     try:
         if df.schema[column_name].dataType.simpleString() == "string":
