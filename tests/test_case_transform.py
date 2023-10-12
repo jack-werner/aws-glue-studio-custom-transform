@@ -9,40 +9,40 @@ from pyspark.sql.types import StructType, StringType, StructField, DateType, Int
 from pyspark.sql.utils import AnalysisException
 from transforms.case_transform import case_transform
 
-COLUMN_NAME = 'name'
+COLUMN_NAME = "name"
 CASE = "lowercase"
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def spark_session():
     "Test fixture that returns a shared SparkSession"
-    spark = (
-        SparkSession.builder
-        .appName("test_case_transform")
-        .getOrCreate()
-    )
+    spark = SparkSession.builder.appName("test_case_transform").getOrCreate()
     yield spark
     spark.stop()
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def accounts(spark_session):
     "Test fixture that returns a Spark DataFrame"
     spark = spark_session
-    schema = StructType([
-        StructField("id", IntegerType(), False),
-        StructField("name", StringType(), False),
-        StructField("created_date", DateType(), False),
-        StructField("state", StringType(), False),
-        StructField("sector", StringType(), False),
-    ])
+    schema = StructType(
+        [
+            StructField("id", IntegerType(), False),
+            StructField("name", StringType(), False),
+            StructField("created_date", DateType(), False),
+            StructField("state", StringType(), False),
+            StructField("sector", StringType(), False),
+        ]
+    )
 
     df = (
-        spark.read
-        .option('header','true')
+        spark.read.option("header", "true")
         .schema(schema)
-        .csv('tests/resources/accounts.csv')
+        .csv("tests/resources/accounts.csv")
     )
     yield df
     spark.stop()
+
 
 def test_transform_lowercase(accounts):
     "Tests lowercase transform works properly"
@@ -51,7 +51,7 @@ def test_transform_lowercase(accounts):
         "abc company",
         "xyz corporation",
         "random casing ltd",
-        "def industries"
+        "def industries",
     ]
 
     df = case_transform.transform(df, COLUMN_NAME, CASE)
@@ -60,15 +60,16 @@ def test_transform_lowercase(accounts):
 
     assert Counter(expected_values) == Counter(actual_values)
 
+
 def test_transform_uppercase(accounts):
     "Tests uppercase transform works properly"
     df: DataFrame = accounts
-    case = 'uppercase'
+    case = "uppercase"
     expected_values = [
         "ABC COMPANY",
         "XYZ CORPORATION",
         "RANDOM CASING LTD",
-        "DEF INDUSTRIES"
+        "DEF INDUSTRIES",
     ]
 
     df = case_transform.transform(df, COLUMN_NAME, case)
@@ -76,6 +77,7 @@ def test_transform_uppercase(accounts):
     actual_values = [str(row[0]) for row in names_col]
 
     assert Counter(expected_values) == Counter(actual_values)
+
 
 def test_transform_bad_case(accounts):
     "Tests bad case error is raised properly"
@@ -86,7 +88,7 @@ def test_transform_bad_case(accounts):
         df = case_transform.transform(df, COLUMN_NAME, case)
 
     assert str(e.value) == (
-        "Provided value 'Lowercase' for parameter 'case' is invalid. Valid options are: uppercase, lowercase." # pylint: disable=C0301
+        "Provided value 'Lowercase' for parameter 'case' is invalid. Valid options are: uppercase, lowercase."  # pylint: disable=C0301
     )
 
 
