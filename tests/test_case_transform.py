@@ -2,7 +2,7 @@ import pytest
 import pyspark.sql.functions as F
 from pyspark.sql import SparkSession, DataFrame
 from collections import Counter
-from transforms import case_transform
+from transforms.case_transform import case_transform
 
 @pytest.fixture(scope='module')
 def spark():
@@ -11,13 +11,12 @@ def spark():
         .appName("test_case_transform")
         .getOrCreate()
     )
-
     yield spark
     spark.stop()
 
 @pytest.fixture(scope='module')
 def accounts(spark):
-    return spark.read.csv('resources/accounts.csv')
+    return spark.read.csv('tests/resources/accounts.csv')
 
 def test_transform(accounts):
     df: DataFrame = accounts
