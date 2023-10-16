@@ -40,7 +40,27 @@ df: DataFrame = self.toDF()
 
 ## Testing Your Transforms
 
-This repo uses `pytest` to test the Python transformation function. You can see in the `case_transform.py` file that I have broke out the transformation logic to only use the Spark API. That is so that you can unit test the transformation logic neatly without having to worry about mocking the AWS Glue DynamicFrame types since that code cannot be run locally. The function that actually gets called is only converting the dynamic frame to a DataFrame, passing it to the transform function, and then converting that dataframe back to a dynamic frame. I would recommend that you follow a similar pattern when developing your own custom transforms so that you can keep your unit tests simple and ensure they are rigirously testing values instead of writing weak assertions with mocks. 
+This repo uses `pytest` to test the Python transformation function. You can see in the `case_transform.py` file that I have broke out the transformation logic to only use the Spark API. That is so that you can unit test the transformation logic neatly without having to worry about mocking the AWS Glue DynamicFrame types since that code cannot be run locally. The function that actually gets called is only converting the dynamic frame to a DataFrame, passing it to the transform function, and then converting that dataframe back to a dynamic frame. I would recommend that you follow a similar pattern when developing your own custom transforms so that you can keep your unit tests simple and ensure they are rigirously testing values instead of writing weaker assertions with mocks. 
+
+We do several parameter validation checks in our `transform` function before we actually transform any of our data, so we are going to need to write tests that assure all of those errors get raised correctly when invalid parameters are used in addition to checking the columns case gets transformed as expected.
+
+You can run your tests with the command
+```
+python -m pytest --cov=transforms
+```
+
+and you can view the coverage report to see which lines of code are not covered
+by running 
+```
+coverage report -m
+```
+
+Here's what the output should look like from the initial code:
+
+![coverage report](img/coverage.png "Coverage Report")
+
+The `Missing` column indicates which lines of code are not covered by the tests that were run. If you look at the `case_transforms.py` file you'll see that those lines are only the ones that deal with converting the DynamicFrame to a DataFrame and back, which we didn't want to test. If you did want to increase your coverage you could of course write new tests for the `case_transform` method that mocked the `DynamicFrame` class.
+
 
 ## Github Actions for Terraform deployment
 
