@@ -1,3 +1,8 @@
 venv
 .DS_Store
 .terraform
+build
+**/__pycache__/
+dist
+.pytest_cache
+.coverage
