@@ -3,7 +3,8 @@ This repo provides a starting point for a scalable solution for hosting and depl
 
 - Build your own custom visual transforms
 - Write unit tests to ensure safety of your transforms
-- Use GitHub Actions and Terraform to deploy the transforms
+- Use GitHub and Terraform module to deploy the transforms
+- Use your new transform in Glue Studio
 
 ## Getting Started
 
@@ -23,13 +24,27 @@ If you want to create addition transforms I would recommend adding them in a dir
 
 You can review the documentation [here](https://docs.aws.amazon.com/glue/latest/ug/custom-visual-transform-json-config-file.html) to see all the attributes you can configure to customize your transform.
 
+### How the Transform works
+
+The custom transform works by appending our custom transform method to the AWS Glue DynamicFrame class. This is done in the last line of our script
+
+```python
+DynamicFrame.case_transform = case_transform
+```
+
+Of course for your custom transforms you are can use the built in methods for DynamicFrames outlined [here](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html), but there are visual transforms that correspond to nearly all of these in the Glue Studio UI already, so usually you are probably going to want to convert the DynamicFrame to a Spark DataFrame to get access to the lower level transform capabilities available in Spark. To convert the DynamicFrame to a DataFrame, just call `self.toDF()` like this we do in the `case_transform.py` file:
+
+```python
+df: DataFrame = self.toDF()
+```
+
 ## Testing Your Transforms
 
 This repo uses `pytest` to test the Python transformation function. You can see in the `case_transform.py` file that I have broke out the transformation logic to only use the Spark API. That is so that you can unit test the transformation logic neatly without having to worry about mocking the AWS Glue DynamicFrame types since that code cannot be run locally. The function that actually gets called is only converting the dynamic frame to a DataFrame, passing it to the transform function, and then converting that dataframe back to a dynamic frame. I would recommend that you follow a similar pattern when developing your own custom transforms so that you can keep your unit tests simple and ensure they are rigirously testing values instead of writing weak assertions with mocks. 
 
 ## Github Actions for Terraform deployment
 
-Setting up terraform to be integrated with your AWS account and github repo is out of scope for this readme, but if you do not already have an existing workflow with Terraform I would recommend following the setup guide [here](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started) for using Terraform Cloud with the VCS workflow since it is the easiest to get started with.
+The setup to integrate Terraform with your AWS account and GitHub repo is out of scope for this readme, but if you do not already have an existing workflow with Terraform I would recommend following the setup guide [here](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started) for using Terraform Cloud with the VCS workflow since it is the easiest to get started with.
 
 Once you have your Terraform workspace set up and connected to your AWS account, see 
 `main.tf` to see how to use the module to make it easy to add your transforms to your AWS account. Adding your new custom transform would look something like this
@@ -43,3 +58,5 @@ module "your_new_transform_name" {
   local_path = "transforms/your_new_transform"
 }
 ```
+
+## Using Your Custom Transform in Glue Studio
