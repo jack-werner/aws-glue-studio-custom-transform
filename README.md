@@ -10,10 +10,10 @@ This repo provides a starting point for a scalable solution for hosting and depl
 
 1. Clone this repo to your local environment
 2. Install the requirements
-    - This repo uses Apache Spark so you will need to have Java installed. You can follow the docs here ADD LINK to download Java
+    - This repo uses Apache Spark so you make sure you have Java installed before continuing.
     - Install the Python packages by running
     `pip install -r requirements.txt` 
-    - This repo uses terraform but you don't need it on you local machine to be able to use this repo effectively
+    - This repo uses Terraform but you don't need it on you local machine to be able to use this repo effectively
 
 
 ## Creating Custom Transforms
@@ -80,3 +80,18 @@ module "your_new_transform_name" {
 ```
 
 ## Using Your Custom Transform in Glue Studio
+
+Once your Terraform pipeline has successfully built and applied, you can use your new custom visual transform in Glue Studio! Let's take a look at what this looks like
+
+Go to AWS Glue and under `ETL Jobs` on the left toolbar select `Visual ETL`. Then make sure you are in the same region you deployed your transform to, then select `Visual with a blank canvas` and click `Create` to create a new AWS Glue Studio ETL job.
+
+Then once you have picked your data source, click the plus sign and navigate to the `Transforms` tab to pick a new transform. Scroll down and to find your new custom transform and select it.
+
+![custom transform](img/custom_transform.png "Custom Transform")
+
+Now input your parameters as necessary
+
+![parameters](img/parameters.png "Parameters")
+
+And select your target node and then your job is ready to go! Run your job to test that it works as expected and that's it, you're set up to use custom visual transforms!
+
