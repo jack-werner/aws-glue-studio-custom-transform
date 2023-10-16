@@ -1,19 +1,29 @@
 # Overview
-This repo provides a starting point for a scalable solution for hosting and deploying custom Glue Studio Visual Transforms. Following the guide in this readme will show you how to:
+This repo provides a starting point for a scalable solution for hosting and deploying custom Glue Studio Visual Transforms. Having a centralized repo for custom transforms allows your users to consume and deploy them to their AWS account without having to write and manage the code themselves. This way your software engineers can manage the transform code, tests, and infra structure and your analysts can consume the code without copy/pasting to reduce possible errors and ensure that updates to the transforms are applied globally across your organization automatically.
+
+ Following the guide in this readme will show you how to:
 
 - Build your own custom visual transforms
 - Write unit tests to ensure safety of your transforms
 - Use GitHub and Terraform module to deploy the transforms
 - Use your new transform in Glue Studio
 
-## Getting Started
+## Setup Environment
 
 1. Clone this repo to your local environment
-2. Install the requirements
-    - This repo uses Apache Spark so you make sure you have Java installed before continuing.
+2. Activate the virtual environment using `venv`
+    
+    On Mac run `source venv/bin/activate`
+
+    On Windows cmd run `venv\Scripts\activate.bat`
+
+    On Windows PowerShell run `venv\Scripts\Activate.ps1`
+
+3. Install the requirements
+     - This repo uses Apache Spark so you make sure you have Java installed before continuing.
     - Install the Python packages by running
     `pip install -r requirements.txt` 
-    - This repo uses Terraform but you don't need it on you local machine to be able to use this repo effectively
+    - While you don't necessarily need to install Terraform locally to use this repo it could be helpful for quickly testing the vailidity of your infrastructure before applying.
 
 
 ## Creating Custom Transforms
