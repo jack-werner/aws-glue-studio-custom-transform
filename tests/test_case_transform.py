@@ -110,3 +110,7 @@ def test_transform_not_string(accounts):
         df = case_transform.transform(df, "created_date", CASE)
 
     assert str(e.value) == "Column 'created_date' is not of StringType."
+
+
+def test_false():
+    assert False
