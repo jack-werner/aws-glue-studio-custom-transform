@@ -1,4 +1,4 @@
-aws-glue-libs==git+https://github.com/awslabs/aws-glue-libs.git
+-e git+https://github.com/awslabs/aws-glue-libs.git#egg=aws-glue-libs
 coverage==7.3.2
 iniconfig==2.0.0
 packaging==23.2
