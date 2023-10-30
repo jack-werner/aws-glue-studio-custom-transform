@@ -1,6 +1,6 @@
 {
-  "name": "case_transform_string",
-  "displayName": "TRANSFORM CASE",
+  "name": "case_transform_string2",
+  "displayName": "TRANSFORM CASE2",
   "description": "Transform a string column's casing to uppercase or lowercase.",
   "functionName": "case_transform",
   "parameters": [
@@ -14,7 +14,7 @@
     {
       "name": "case",
       "displayName": "Case",
-      "type": "list",
+      "type": "str",
       "isOptional": false,
       "description": "Transform to lowercase or uppercase",
       "listOptions": [
@@ -26,8 +26,7 @@
           "value": "lowercase",
           "label": "Lowercase"
         }
-      ],
-      "listType": "str"
+      ]
     }
   ]
 }
