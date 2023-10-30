@@ -14,7 +14,7 @@
     {
       "name": "case",
       "displayName": "Case",
-      "type": "str",
+      "type": "list",
       "isOptional": false,
       "description": "Transform to lowercase or uppercase",
       "listOptions": [
@@ -26,7 +26,8 @@
           "value": "lowercase",
           "label": "Lowercase"
         }
-      ]
+      ],
+      "listType": "str"
     }
   ]
 }
