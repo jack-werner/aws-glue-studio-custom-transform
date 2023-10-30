@@ -73,6 +73,8 @@ Here's what the output should look like from the initial code:
 
 The `Missing` column indicates which lines of code are not covered by the tests that were run. If you look at the `case_transforms.py` file you'll see that those lines are only the ones that deal with converting the DynamicFrame to a DataFrame and back, which we didn't want to test. If you did want to increase your coverage you could of course write new tests for the `case_transform` method that mocked the `DynamicFrame` class.
 
+This repo also comes with a GitHub Action that will run the Python tests on all your pull requests before merging.
+
 
 ## Deploying Transforms with Terraform 
 
